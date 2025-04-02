@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# Defaults
+BUILDDIR=build/linux
+PREFIX=/usr/local
+HOST=
+
+# Parse options.
+for OPT in "${@}"; do
+    case "$OPT" in
+        -h | --help)
+            echo '  --prefix=[/usr/local]'
+            echo '  --host=[windows|cross-windows|macos|linux]'
+            exit 0
+            ;;
+        --host=*)
+            HOST=${1#--host=}
+            ;;
+        --prefix=*)
+            PREFIX=${1#--prefix=}
+            sed -e "s|^DESTDIR=.*$|DESTDIR=$PREFIX|g" Makefile > Makefile.new
+            mv Makefile.new Makefile
+            ;;
+    esac
+done
+
+# Detect a host type if not specified.
+if [ -z "$HOST" ]; then
+    case "`uname -s`" in
+        MINGW*)
+            echo "Detected MinGW."
+            HOST=windows
+            ;;
+        Darwin)
+            echo "Detected macOS."
+            HOST=macos
+            ;;
+        Linux)
+            echo "Detected Linux."
+            HOST=linux
+            ;;
+        *)
+            echo "Unkown host."
+            exit 1
+            ;;
+    esac
+fi
+
+# For Linux.
+if [ "$HOST" = "linux" ]; then
+    set -eu
+    sed -e "s|^BUILDDIR=.*$|BUILDDIR=build/linux|g" \
+        -e "s|^CC=.*$|CC=cc|g" \
+        -e "s|^CXX=.*$|CXX=c++|g" \
+        -e "s|^AR=.*$|AR=ar|g" \
+        -e "s|^STRIP=.*$|STRIP=strip|g" \
+        Makefile > Makefile.new
+    mv Makefile.new Makefile
+    echo 'Configured. Run make.'
+    exit 0
+fi
+
+echo 'Host not supported.'
+exit 1
