@@ -4,7 +4,7 @@ libvorbis.a: analysis.o barkmel.o bitrate.o block.o codebook.o envelope.o floor0
 	$(AR) rcs $(PREFIX)/lib/libvorbis.a analysis.o barkmel.o bitrate.o block.o codebook.o envelope.o floor0.o floor1.o info.o lookup.o lpc.o lsp.o mapping0.o mdct.o psy.o registry.o res0.o sharedbook.o smallft.o synthesis.o tone.o vorbisenc.o window.o
 
 libvorbisfile.a: vorbisfile.o
-	$(AR) rcs $(PREFIX)/lib/libvorbis.a vorbisfile.o
+	$(AR) rcs $(PREFIX)/lib/libvorbisfile.a vorbisfile.o
 
 analysis.o: lib/analysis.c
 	$(CC) -I./include -I./lib -I$(PREFIX)/include $(CFLAGS) -c $<
