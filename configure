@@ -49,7 +49,7 @@ fi
 # For Linux.
 if [ "$HOST" = "linux" ]; then
     set -eu
-    sed -e "s|^BUILDDIR=.*$|BUILDDIR=build/linux|g" \
+    sed -e "s|^BUILDDIR=.*$|BUILDDIR=build/linux-static|g" \
         -e "s|^CC=.*$|CC=cc|g" \
         -e "s|^CXX=.*$|CXX=c++|g" \
         -e "s|^AR=.*$|AR=ar|g" \

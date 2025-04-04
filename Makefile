@@ -1,4 +1,4 @@
-BUILDDIR=build/linux
+BUILDDIR=build/linux-static
 CC=cc
 LD=ld
 AR=ar
